@@ -1,0 +1,7 @@
+# Add content of this file to /etc/hosts on Ansible Control Station VM
+# and modify IPs if necessary
+10.10.20.4  training-cs01
+10.10.20.5  training-vm01
+10.10.20.6  training-vm02
+10.10.20.7  training-vm03
+10.10.20.8  training-vm04
