@@ -1,0 +1,10 @@
+.idea
+.terraform
+.vscode
+*.sublime-workspace
+*.code-workspace
+*.retry
+*.tfstate
+*.tfstate.backup
+credentials*.tfvars
+
