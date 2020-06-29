@@ -1,0 +1,55 @@
+---
+- name: Set Jenkins Docker network to global project network (if defined)
+  set_fact: 
+    jenkins_docker_network: "{{ project_docker_network }}"
+  when: project_docker_network is defined
+
+- name: Create Jenkins Docker network
+  docker_network:
+    name: "{{ jenkins_docker_network }}"
+
+- include_tasks: docker_repo_login.yml
+  with_items: "{{ docker_registries }}"
+  when: docker_registries is defined
+  vars:
+    repo_url: "{{ item.url }}"
+    repo_user: "{{ item.user }}"
+    repo_password: "{{ item.password }}"
+
+# Fix the home dir permissions issue
+- name: Change Jenkins home folder access mode
+  file:
+    path: "{{ jenkins_home_volume }}"
+    mode: 0777
+    recurse: no
+
+# Correct permissions of Docker socket to allow Jenkins to run docker cli commands
+- name: Adjust docker socket mode to allow Jenkins to start and build containers
+  file:
+    path: "{{ docker_external_socket }}"
+    mode: "g+rw,o-rw"
+    
+- name: Pull the Jenkins image
+  docker_image:
+    name: "{{jenkins_image_registry}}/{{ jenkins_image_tag }}"
+    source: pull
+    force_source: yes
+  notify: restart jenkins container
+
+- name: Start Jenkins docker container
+  docker_container:
+    name: "{{ jenkins_container_name }}"
+    hostname: "{{ jenkins_container_name }}"
+    image: "{{jenkins_image_registry}}/{{ jenkins_image_tag }}"
+    state: started
+    restart_policy: "unless-stopped"
+    networks:
+      - name: "{{ jenkins_docker_network }}"
+    purge_networks: true
+    ports:
+      - "{{ jenkins_webport_ext }}:{{ jenkins_webport_int }}"
+      - "{{ jenkins_connectorport_ext }}:{{ jenkins_connectorport_int }}"
+    volumes:
+      - "{{ jenkins_home_volume }}:{{ jenkins_home_volume_int }}:rw"
+      - "{{ docker_external_socket }}:{{ docker_internal_socket }}"
+

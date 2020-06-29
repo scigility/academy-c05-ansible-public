@@ -1,0 +1,28 @@
+---
+# Variable setup.
+- name: Include platform-specific variables.
+  include_vars: "vars-Debian.yml"
+
+- name: Ensure Docker repository key is installed
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Add docker-ce official repository to APT sources list
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+    state: present
+    filename: 'docker-ce'
+
+- name: Install docker-ce daemon
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: yes
+    cache_valid_time: 900
+
+- name: Install docker-py driver via PIP
+  pip:
+    name: docker-py
+    state: latest
+    

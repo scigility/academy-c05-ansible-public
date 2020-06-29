@@ -1,0 +1,16 @@
+---
+# Some important Jenkins Docker image defaults
+jenkins_image_tag: "jenkins/jenkins:lts"
+jenkins_container_name: "jenkins"
+jenkins_docker_network: "jenkins_network"
+
+jenkins_webport_int: 8080
+jenkins_webport_ext: 8080
+jenkins_connectorport_int: 50000
+jenkins_connectorport_ext: 50000
+
+jenkins_home_volume: "jenkins_home"
+jenkins_home_volume_int: "/var/jenkins_home"
+
+docker_external_socket: "/var/run/docker.sock"
+docker_internal_socket: "/var/run/docker.sock"

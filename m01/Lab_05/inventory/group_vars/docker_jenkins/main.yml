@@ -1,0 +1,6 @@
+---
+# Some important Jenkins Docker image defaults
+
+jenkins_container_name: "training_jenkins"
+jenkins_home_volume: "/data/jenkins_home"
+jenkins_image_tag: "jenkins/jenkins:lts-alpine"

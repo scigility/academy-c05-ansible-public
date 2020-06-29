@@ -1,0 +1,7 @@
+---
+- name: Log into {{ repo_url }} for docker
+  docker_login:
+    registry: "{{ repo_url }}"
+    username: "{{ repo_user }}"
+    password: "{{ repo_password }}"
+    

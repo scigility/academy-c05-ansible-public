@@ -1,0 +1,5 @@
+[config_management]
+training-cs01 ansible_connection=local
+
+[docker_hosts]
+training-vm04
