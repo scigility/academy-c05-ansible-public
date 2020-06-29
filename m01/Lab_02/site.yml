@@ -2,9 +2,13 @@
 - hosts: web_proxy
   become: yes
   tasks:
+    - name: Ensure EPEL is activated
+      yum:
+        name: epel-release
+        state: latest
+
     - name: Ensure Nginx is installed
-      apt:
+      yum:
         name: nginx
-        update_cache: yes
         state: latest
         
