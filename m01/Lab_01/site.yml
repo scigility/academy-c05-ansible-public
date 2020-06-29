@@ -1,0 +1,10 @@
+---
+- hosts: web_proxy
+  become: yes
+  tasks:
+    - name: Ensure Nginx is installed
+      apt:
+        name: nginx
+        update_cache: yes
+        state: latest
+        
