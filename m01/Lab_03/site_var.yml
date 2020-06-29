@@ -1,0 +1,27 @@
+---
+- hosts: web_proxy
+  become: yes
+  tasks:
+    - name: Ensure EPEL is activated
+      yum:
+        name: epel-release
+        state: latest
+
+    - name: Ensure Nginx is installed
+      yum:
+        name: nginx
+        state: latest
+
+    - name: Ensure Nginx service is enabled and started
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Update index.html with custom one from template
+      template:
+        src: index.html.j2
+        dest: "{{ nginx_index_html }}"
+        owner: root
+        mode: '0644'
+ 

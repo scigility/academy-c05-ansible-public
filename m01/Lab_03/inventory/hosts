@@ -1,0 +1,12 @@
+[config_management]
+training-cs01 ansible_connection=local
+
+[web_proxy]
+training-vm01
+
+[web_app]
+training-vm02
+training-vm03
+
+[web_database]
+training-vm04
