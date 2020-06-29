@@ -1,0 +1,4 @@
+---
+- name: Fix the hostname using inventory_hostname
+  command: "echo {{ inventory_hostname }} >>/ect/hostname" 
+  
